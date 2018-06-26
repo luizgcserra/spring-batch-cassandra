@@ -17,8 +17,8 @@ public class BeneficiaryJobCompletionNotificationListener extends JobExecutionLi
 	private final BeneficiaryRepository repository;
 
 	@Autowired
-	public BeneficiaryJobCompletionNotificationListener(BeneficiaryRepository repository) {
-		this.repository = repository;
+	public BeneficiaryJobCompletionNotificationListener(BeneficiaryRepository beneficiaryRepository) {
+		this.repository = beneficiaryRepository;
 	}
 
 	@Override
