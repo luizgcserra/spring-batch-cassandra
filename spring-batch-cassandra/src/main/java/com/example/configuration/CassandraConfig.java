@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
 import org.springframework.data.cassandra.core.CassandraTemplate;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
@@ -17,16 +20,22 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 
 	@Autowired
 	private Session session;
-	
 
 	@Value("${spring.data.cassandra.contact-points}")
 	private String HOST;
 
 	@Value("${spring.data.cassandra.keyspace-name}")
-	private String KEY_SPACE = "contoso";
+	private String KEY_SPACE;
 
 	@Value("${spring.data.cassandra.port}")
 	private int PORT;
+
+	@Autowired
+	public CassandraConfig(Environment env) {
+		this.HOST = env.getProperty("spring.data.cassandra.contact-points");
+		this.PORT = Integer.parseInt(env.getProperty("spring.data.cassandra.port"));
+		this.KEY_SPACE = env.getProperty("spring.data.cassandra.keyspace-name");
+	}
 
 	@Bean
 	public MappingManager mappingManager() {
@@ -35,7 +44,17 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 
 	@Override
 	protected String getKeyspaceName() {
-		return this.KEY_SPACE;
+		return KEY_SPACE;
+	}
+
+	@Override
+	protected String getContactPoints() {
+		return HOST;
+	}
+
+	@Override
+	protected int getPort() {
+		return PORT;
 	}
 
 	@Override
