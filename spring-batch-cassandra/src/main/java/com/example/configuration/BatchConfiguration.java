@@ -26,6 +26,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.example.batch.CassandraItemWriter;
 import com.example.listeners.BeneficiaryJobCompletionNotificationListener;
+import com.example.model.BeneficiaryKey;
 import com.example.processors.BeneficiaryItemProcessor;
 import com.example.repository.BeneficiaryRepository;
 
@@ -87,9 +88,9 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
 	}
 
 	@Bean
-	public CassandraItemWriter<com.example.model.Beneficiary, String> writer(
+	public CassandraItemWriter<com.example.model.Beneficiary, BeneficiaryKey> writer(
 			BeneficiaryRepository beneficiaryRepository) {
-		return new CassandraItemWriter<com.example.model.Beneficiary, String>(beneficiaryRepository);
+		return new CassandraItemWriter<com.example.model.Beneficiary, BeneficiaryKey>(beneficiaryRepository);
 	}
 
 	@Bean

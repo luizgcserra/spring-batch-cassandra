@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import com.example.model.Beneficiary;
+import com.example.model.BeneficiaryKey;
 
 public class BeneficiaryRepositoryImpl implements BeneficiaryRepository {
 
@@ -18,16 +20,6 @@ public class BeneficiaryRepositoryImpl implements BeneficiaryRepository {
 	@Autowired
 	public BeneficiaryRepositoryImpl(CassandraTemplate cassandraTemplate) {
 		this.cassandraTemplate = cassandraTemplate;
-	}
-
-	@Override
-	public <S extends Beneficiary> List<S> insert(Iterable<S> entities) {
-
-		final CassandraBatchOperations batchOps = cassandraTemplate.batchOps();
-		batchOps.insert(entities);
-		batchOps.execute();
-
-		return (List<S>) entities;
 	}
 
 	@Override
@@ -43,7 +35,7 @@ public class BeneficiaryRepositoryImpl implements BeneficiaryRepository {
 	}
 
 	@Override
-	public List<Beneficiary> findAllById(Iterable<String> ids) {
+	public List<Beneficiary> findAllById(Iterable<BeneficiaryKey> ids) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -59,39 +51,49 @@ public class BeneficiaryRepositoryImpl implements BeneficiaryRepository {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public <S extends Beneficiary> List<S> insert(Iterable<S> entities) {
+
+		final CassandraBatchOperations batchOps = cassandraTemplate.batchOps();
+		batchOps.insert(entities);
+		batchOps.execute();
+
+		return (List<S>) entities;
+	}
 
 	@Override
 	public void delete(Beneficiary arg0) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void deleteAll(Iterable<? extends Beneficiary> arg0) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void deleteById(String arg0) {
+	public void deleteById(BeneficiaryKey arg0) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public boolean existsById(String arg0) {
+	public boolean existsById(BeneficiaryKey arg0) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Optional<Beneficiary> findById(String arg0) {
+	public Optional<Beneficiary> findById(BeneficiaryKey arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -107,4 +109,6 @@ public class BeneficiaryRepositoryImpl implements BeneficiaryRepository {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 }
